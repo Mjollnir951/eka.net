@@ -5,9 +5,10 @@
 <h3>@ViewBag.Message</h3>
 
 <canvas id="canvas" width="500" height="300"
-        style="border: 1px gainsboro dashed"></canvas>
+        style="border: 1px gainsboro dashed"></canvas><br/><hr/>
 <input type="button" class="btn btn-danger "
-       id="clear-btn" value="Clear" />
+       id="clear-btn" value="Clear"/>
+<label>Users on-line: <strong id="count"></strong></label>
 @section scripts
 {
 
@@ -16,7 +17,7 @@
     <script>
         var drawPath;
         var initialiseCanvas = function () {
-
+        
             document.puneCanvas = new fabric.Canvas('canvas');
 
             document.puneCanvas.isDrawingMode = true;
@@ -59,6 +60,14 @@
             }
         }
 
+        countUsers = function() {
+            var counterHub = $.connection.counter;
+            counterHub.client.UpdateCount = function(count) {
+                $("#count").text(count);
+            }
+        }
+
+        countUsers();
         $.connection.puns.client.drawPath = drawPath;
         $.connection.hub.start();
 
